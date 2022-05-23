@@ -1,0 +1,59 @@
+﻿@page
+@model Faellesskabet_Web.Pages.Bestyrelsen.Settings.IndexModel
+@{
+	Layout = "~/Pages/Shared/_StaffLayout.cshtml";
+}
+
+<div class="border-fancy">
+	<p>
+		<a asp-page="Create" class="btn btn-success">Tilføj Nyt Medlem</a>
+	</p>
+	<table class="table">
+		<thead>
+			<tr>
+				<th>
+					Navn
+				</th>
+				<th>
+					Rolle
+				</th>
+				<th>
+					Sorter
+				</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var item in Model.Bestyrelse)
+			{
+				<tr>
+					<td>
+						@Html.DisplayFor(modelItem => item.Name)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.MemberType)
+					</td>
+					<td>
+						<div class="row">
+							<form method="post">
+								<input type="hidden" name="Id" value="@item.Id" />
+								<input type="hidden" name="UpDown" value="Up" />
+								<input type="submit" value="Op" class="btn btn-sm btn-secondary mx-1" style="width: 60px;" />
+							</form>
+
+							<form method="post">
+								<input type="hidden" name="Id" value="@item.Id" />
+								<input type="hidden" name="UpDown" value="Down" />
+								<input type="submit" value="Ned" class="btn btn-sm btn-secondary mx-1" style="width: 60px;" />
+							</form>
+						</div>
+					</td>
+					<td>
+						<a asp-page="./Edit" asp-route-id="@item.Id">Rediger</a> |
+						<a class="text-danger" asp-page="./Delete" asp-route-id="@item.Id">Slet</a>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+</div>

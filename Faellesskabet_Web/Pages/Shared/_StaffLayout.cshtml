@@ -1,0 +1,65 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>@ViewData["Title"] Fællesskabet</title>
+	<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="~/css/site.css" />
+	<link rel="apple-touch-icon" href="~/apple-touch-icon.png">
+	@RenderSection("metatags", false)
+</head>
+<body>
+	<header>
+		<nav class="navbar navbar-expand-lg navbar-toggleable-lg navbar-dark bg-dark box-shadow pt-0 pb-0 pl-0 pr-0 ml-0">
+			<div class="container-fluid pl-0">
+				<a class="" href="/">
+					<div class="" style="background-color: rgba(255, 255, 255, .97);">
+						<div class="p-3">
+							<img src="/Images/Logo.svg" height="30" width="200" />
+						</div>
+					</div>
+				</a>
+
+				<button class="navbar-toggler mr-2" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+						aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="navbar-collapse collapse d-lg-inline-flex flex-lg-row-reverse">
+					<partial name="_LoginPartial" />
+					<ul class="navbar-nav flex-grow-1 pl-0 pl-lg-4">
+						<li class="nav-item mx-2">
+							<a class="nav-link btn btn-link py-3 py-lg-0" asp-area="" asp-page="/Nyheder/Index">Nyheder</a>
+						</li>
+						<li class="nav-item mx-2">
+							<a class="nav-link btn btn-link py-3 py-lg-0" asp-area="" asp-page="/Arrangementer/Index">Arrangementer</a>
+						</li>
+
+						<li class="nav-item dropdown mx-2">
+							<a class="nav-link btn btn-link dropdown-toggle py-3 py-lg-0" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Om Fællesskabet</a>
+							<div class="dropdown-menu" style="">
+								<a class="dropdown-item py-3 py-lg-0" asp-page="/Bestyrelsen/Index">Bestyrelsen</a>
+								<a class="dropdown-item py-3 py-lg-0" asp-page="/Documents/Index">Dokumenter</a>
+							</div>
+						</li>
+
+
+					</ul>
+				</div>
+
+			</div>
+		</nav>
+	</header>
+	<div class="">
+		<main role="main" class="" style="min-height:auto !important;">
+			@RenderBody()
+		</main>
+	</div>
+
+	<script src="~/lib/jquery/dist/jquery.min.js"></script>
+	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="~/js/site.js" asp-append-version="true"></script>
+
+	@RenderSection("Scripts", required: false)
+</body>
+</html>

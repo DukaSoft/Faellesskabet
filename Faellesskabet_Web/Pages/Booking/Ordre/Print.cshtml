@@ -1,0 +1,176 @@
+﻿@page
+@model Faellesskabet_Web.Pages.Booking.Ordre.PrintModel
+@{
+	Layout = "~/Pages/Shared/_StaffLayout.cshtml";
+}
+
+<div class="border-fancy" style="margin: 1.5rem 20% 1.5rem 20%;">
+	<div class="row justify-content-around">
+		<div class="col-auto">
+			<form method="post">
+				<div class="input-group">
+					<input type="date" asp-for=SearchDate class="form-control" />
+					<input type="submit" value="Søg" class="btn btn-success" />
+				</div>
+			</form>
+		</div>
+		<div class="col">
+			<button class="btn btn-primary float-right" onclick="print()">Print</button>
+		</div>
+	</div>
+
+	<div class="section-to-print" id="section-to-print">
+		<div class="text-center print-svg" style="display:none;">
+			<img src="/Images/Logo.svg" height="70" width="500" />
+		</div>
+		<table class="table mx-auto">
+			<caption style="caption-side:top; text-align:center; padding-bottom:0px;">Billet Salg d.@Model.SearchDateText</caption>
+			<caption style="caption-side:top; text-align:center; padding-top:0px;">MobilePay</caption>
+			<thead>
+				<tr>
+					<th>
+						Arrangement
+					</th>
+					<th>
+						Billetter solgt
+					<th>
+						Pris Total
+					</th>
+					<th>
+						Total
+					</th>
+				</tr>
+			</thead>
+			<tfoot>
+				<tr>
+					<td>
+					</td>
+					<td>
+					</td>
+					<td>
+					</td>
+					<td>
+						<div class="row justify-content-between">
+							<div class="col">
+								kr. @Model.PaymentTotalMobilePay,-
+								<br />
+							</div>
+						</div>
+					</td>
+				</tr>
+			</tfoot>
+			<tbody>
+				@foreach (var item in Model.TicketsSoldMobilePay)
+				{
+					<tr>
+						<td>
+							@Model.Arrangementer.FirstOrDefault(i => i.Id == item.ArrangementId).Title
+						</td>
+						<td>
+							Barn: @item.ChildTicketsSold
+							<br />
+							Voksen: @item.AdultTicketsSold
+						</td>
+						<td>
+							Barn: kr. @item.ChildPriceTotal,-
+							<br />
+							Voksen: kr. @item.AdultPriceTotal,-
+						</td>
+						<td>
+							kr. @Model.Total(item.ChildPriceTotal, item.AdultPriceTotal),-
+						</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+	</div>
+	<div class="section-to-print mx-auto">
+		<table class="table mx-auto mb-5">
+			<caption style="caption-side:top; text-align:center; padding-bottom:0px;">Billet Salg d.@Model.SearchDateText</caption>
+			<caption style="caption-side:top; text-align:center; padding-top:0px;">Kontant</caption>
+			<thead>
+				<tr>
+					<th>
+						Arrangement
+					</th>
+					<th>
+						Billetter solgt
+					<th>
+						Pris Total
+					</th>
+					<th>
+						Total
+					</th>
+				</tr>
+			</thead>
+			<tfoot>
+				<tr>
+					<td>
+					</td>
+					<td>
+					</td>
+					<td>
+					</td>
+					<td>
+						<div class="row justify-content-between">
+							<div class="col">
+								kr. @Model.PaymentTotalKontant,-
+								<br />
+							</div>
+						</div>
+					</td>
+				</tr>
+			</tfoot>
+			<tbody>
+				@foreach (var item in Model.TicketsSoldCash)
+				{
+					<tr>
+						<td>
+							@Model.Arrangementer.FirstOrDefault(i => i.Id == item.ArrangementId).Title
+						</td>
+						<td>
+							Barn: @item.ChildTicketsSold
+							<br />
+							Voksen: @item.AdultTicketsSold
+						</td>
+						<td>
+							Barn: kr. @item.ChildPriceTotal,-
+							<br />
+							Voksen: kr. @item.AdultPriceTotal,-
+						</td>
+						<td>
+							kr. @Model.Total(item.ChildPriceTotal, item.AdultPriceTotal),-
+						</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+
+		<div class="row justify-content-center">
+			<div class="col-4 text-right p-3 mr-3 font-weight-bold" style="border: 2px solid #DEE2E6; border-radius: 8px;">
+				<div class="d-flex justify-content-between">
+					<div style="" class="">Kasse Start</div>
+					<div style="width:100px;" class="text-left"> kr.</div>
+				</div>
+				<div class="d-flex justify-content-between">
+					<div style="" class="">Kontant</div>
+					<div style="width:100px;" class="text-left"> kr. @Model.TotalSoldKontant(),-</div>
+				</div>
+				<div class="d-flex justify-content-between">
+					<div style="" class="">Kasse Slut</div>
+					<div style="width:100px; border-style:solid none double none; border-top-width: 2px;" class="text-left"> kr.</div>
+				</div>
+			</div>
+			<div class="col-4 text-right p-3 mr-3 font-weight-bold" style="border: 2px solid #DEE2E6; border-radius: 8px;">
+				<span style="display: block"><text>MobilePay kr. @Model.TotalSoldMobilePay(),-</text></span>
+				<span style="display: block">Kontant kr. @Model.TotalSoldKontant(),-</span>
+				<span style="border-style:solid none double none; border-top-width: 2px;">kr. @Model.TotalSold(),-</span>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col mr-3 align-self-end" style="margin-top: 150px;">
+				<div class="" style="border-style:solid none none none; border-top-width: 2px; width:100%;">Dato / Underskrift</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,113 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "";
+}
+
+<div class="row justify-content-center bg-white mb-4">
+    <div class="col-sm-12 col-md-10 col-lg-8 col-xl-8">
+        <div class="container mt-3 mb-3 pt-4 pb-4">
+            <p class="text-md-center mb-0 text-sm-left">
+                <img width="110" class="text-center pb-1" src="~/images/Logo.svg" /> er en fælles aktivitetsforening der er dannet
+                <br />
+                på initiativ og på basis af boligafdelingerne i Vængerne i Ballerup
+            </p>
+            <br />
+            <p class="text-md-center mb-0 text-sm-left">
+                <img width="110" class="text-center pb-1" src="~/images/Logo.svg" /><span class="text-primary"><strong>s</strong></span> formål er at styrke det sociale bånd mellem alle beboere i Vængerne
+                <br />
+                og at skabe fælles aktiviteter og kulturtilbud, så Vængerne forbliver et attraktivt område at bo i
+            </p>
+        </div>
+    </div>
+</div>
+
+<div class="row justify-content-sm-center">
+    @if (Model.Nyheder.Count > 0)
+    {
+        <cache expires-after="new TimeSpan(0, 0, Model.CacheMinutes)">
+            <div class="col-12 col-md-7 col-xl-5">
+                <h3 class="text-center text-white font-weight-bold mt-4" style="text-shadow: 2px 2px 8px #808080;">Nyheder</h3>
+                @foreach (var item in Model.Nyheder)
+                {
+                    <div class="d-inline">
+                        <div class="card bg-light m-2  mx-auto" style=" border:none;">
+                            <div class="card-header bg-dark text-white font-weight-bold">
+                                <div class="d-flex flex-row justify-content-center">
+                                    @if (item.Important == true)
+                                    {
+                                        <span class="badge rounded-pill bg-danger text-white p-2 mr-2">Vigtigt</span>
+                                    }
+                                    <div class="mx-2 my-auto ml-2">@item.PublishDate.ToLongDateString()</div>
+                                </div>
+                            </div>
+                            <div class="card-body mb-2">
+                                <h4 class="card-title font-weight-bold mb-4">@item.Title</h4>
+
+                                @if (item.ImageContent != null)
+                                {
+                                    <div class="text-center">
+                                        <a asp-page="/Nyheder/ImageView/Index" asp-route-id="@item.Id" target="_blank">
+                                            <img style="max-width: 95%; height: 100%;" src="data:image/jpg;base64,
+			                                    @Convert.ToBase64String(item.ImageContent)" alt="" />
+                                        </a>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <h6 class="card-text multiline font-weight-normal" style="color: #0366d6;">@item.TextContent</h6>
+                                }
+                            </div>
+                            <div class="card-subtitle m-1">
+                                <p class="m-0 mr-1 float-right"></p>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </cache>
+    }
+    @if (Model.Arrangements.Count > 0)
+    {
+        <div class="col-12 col-md-5 col-xl-4">
+            <h3 class="text-center text-white font-weight-bold mt-4" style="text-shadow: 2px 2px 8px #808080;">Arrangementer</h3>
+            <div class="">
+                <cache expires-after="new TimeSpan(0, 0, Model.CacheMinutes)">
+                @foreach (var item in Model.Arrangements)
+                {
+                    <a class="text-decoration-none" asp-page="./Arrangementer/Details" asp-route-id="@item.Id">
+                        <div class="d-inline">
+                            <div class="card bg-light m-2  mx-auto" style="height:220px; border:none;">
+                                <div class="card-header bg-dark text-white font-weight-bold">
+                                    <div class="d-flex flex-row justify-content-center">
+                                        <div class="mr-2">@item.Date.ToLongDateString()</div>
+                                        <div class="ml-2">@item.Date.ToShortTimeString()</div>
+                                    </div>
+                                </div>
+                                <div class="card-body  overflow-hidden">
+                                    @if (item.Active == true)
+                                    {
+                                        <h4 class="card-title font-weight-bold">@item.Title</h4>
+                                    }
+                                    else
+                                    {
+                                        <h4 class="card-title font-weight-bold text-warning">@item.Title</h4>
+                                    }
+                                    <h6 class="card-text multiline font-weight-normal" style="color: #0366d6;">@item.Content</h6>
+                                </div>
+                                <div class="card-subtitle m-1">
+                                    <p class="m-0 mr-1 float-right">Mere info</p>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                }
+            </cache>
+            @if (Model.TotalArrangements > Model.NumberOfArrangementsToShow)
+            {
+                <a class="btn btn-secondary w-100 font-weight-bold" asp-page="/Arrangementer/Index">Vis flere</a>
+            }
+            </div>
+        </div>
+    }
+</div>

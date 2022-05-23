@@ -1,0 +1,89 @@
+﻿@page
+@model Faellesskabet_Web.Pages.Arrangementer.EditModel
+@{
+	Layout = "~/Pages/Shared/_StaffLayout.cshtml";
+}
+
+<h3 class="text-center text-white font-weight-bold mt-4" style="text-shadow: 2px 2px 8px #808080;">Arrangementer</h3>
+
+<div class="row justify-content-center mt-3 mx-0">
+	<div class="col-md-4 border-fancy m-2 p-3">
+		<form method="post" enctype="multipart/form-data">
+			<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+			<input type="hidden" asp-for="Arrangement.Id" />
+			<div class="form-group">
+				<label asp-for="Arrangement.Title" class="control-label">Titel</label>
+				<input asp-for="Arrangement.Title" class="form-control" />
+				<span asp-validation-for="Arrangement.Title" class="text-danger"></span>
+			</div>
+			<div class="form-group">
+				<label asp-for="Arrangement.Date" class="control-label">Dato</label>
+				<input asp-for="Arrangement.Date" class="form-control" />
+				<span asp-validation-for="Arrangement.Date" class="text-danger"></span>
+			</div>
+			<div class="form-group">
+				<label asp-for="Arrangement.Content" class="control-label">Tekst</label>
+				<textarea asp-for="Arrangement.Content" rows="6" class="form-control"></textarea>
+				<span asp-validation-for="Arrangement.Content" class="text-danger"></span>
+			</div>
+			<div class="form-group">
+				<input type="hidden" asp-for="Arrangement.ImageContent" />
+				@if (Model.Arrangement.ImageContent == null)
+				{
+					<label asp-for="file" class="control-label">Tilføj billede til visning som fuld side</label>
+					<input asp-for="file" class="form-control p-1 form-inline" accept=".jpg,.gif,.png" type="file" />
+				}
+				else
+				{
+					<div class="mb-2 text-center" style="border-radius: 15px;background: #eceef1;">
+						<img style="max-width: 95%; height: 100%; padding: 10px;" src="data:image/jpg;base64,
+											@Convert.ToBase64String(Model.Arrangement.ImageContent)" />
+					</div>
+					<label asp-for="file" class="control-label">Slet billede til visning som fuld side</label>
+					<button type="submit" class="form-control btn btn-sm btn-danger ml-1" asp-page-handler="RemoveImage">Slet billede</button>
+				}
+
+			</div>
+			<div class="form-group">
+				<div class="row">
+					<div class="col">
+						<label asp-for="Arrangement.TicketTotalChild" class="control-label">Børnebilletter</label>
+						<input asp-for="Arrangement.TicketTotalChild" class="form-control" />
+						<span asp-validation-for="Arrangement.TicketTotalChild" class="text-danger"></span>
+						<label asp-for="Arrangement.TicketPriceChild" class="control-label mt-2">Pris</label>
+						<input asp-for="Arrangement.TicketPriceChild" class="form-control" />
+						<span asp-validation-for="Arrangement.TicketPriceChild" class="text-danger"></span>
+					</div>
+					<div class="col">
+						<label asp-for="Arrangement.TicketTotalAdult" class="control-label">Voksenbilletter</label>
+						<input asp-for="Arrangement.TicketTotalAdult" class="form-control" />
+						<span asp-validation-for="Arrangement.TicketTotalAdult" class="text-danger"></span>
+						<label asp-for="Arrangement.TicketPriceAdult" class="control-label mt-2">Pris</label>
+						<input asp-for="Arrangement.TicketPriceAdult" class="form-control" />
+						<span asp-validation-for="Arrangement.TicketPriceAdult" class="text-danger"></span>
+					</div>
+				</div>
+			</div>
+			<div class="form-group form-check">
+				<label class="form-check-label">
+					<input class="form-check-input" asp-for="Arrangement.Active" /> Aktiver Arrangement
+				</label>
+			</div>
+			<div class="form-group form-check">
+				<label class="form-check-label">
+					<input class="form-check-input" asp-for="Arrangement.TicketSaleOpen" /> Billetsalg åben
+				</label>
+			</div>
+			<div class="form-group text-center mt-5">
+				<input type="submit" value="Gem" class="btn btn-primary" />
+				<a class="btn btn-secondary" asp-page="./Details" asp-route-id="@Model.Arrangement.Id">Tilbage</a>
+			</div>
+		</form>
+	</div>
+</div>
+
+@section Scripts {
+	@{
+	await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
+}

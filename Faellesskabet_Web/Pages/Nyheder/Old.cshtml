@@ -1,0 +1,58 @@
+﻿@page
+@model Faellesskabet_Web.Pages.Nyheder.OldModel
+@{
+	Layout = "~/Pages/Shared/_StaffLayout.cshtml";
+}
+
+<h3 class="text-center text-white font-weight-bold mt-4" style="text-shadow: 2px 2px 8px #808080;">Gamle Nyheder</h3>
+
+<div class="container">
+	<div class="border-fancy">
+
+		<input class="form-control" id="myInput" type="text" placeholder="Søg..">
+		<table class="table table-sm table-striped">
+			<thead>
+
+				<tr>
+					<th>Titel</th>
+					<th>Offentlig Dato</th>
+					<th>Udløbsdato</th>
+				</tr>
+			</thead>
+			<tbody id="myTable">
+
+				@foreach (var item in Model.Data)
+				{
+					<tr>
+						<td><a asp-page="/Nyheder/Edit" asp-route-id="@item.Id">@item.Title</a></td>
+						<td>@item.PublishDate</td>
+						<td>@item.ExpireDate</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+		<div>
+			<ul class="pagination">
+				@for (var i = 1; i <= Model.TotalPages; i++)
+				{
+					<li class="page-item @(i == Model.CurrentPage ? "active" : "")">
+						<a asp-page="/Nyheder/All" asp-route-currentpage="@i" class="page-link">@i</a>
+					</li>
+				}
+			</ul>
+		</div>
+	</div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script>
+	$(document).ready(function () {
+		$("#myInput").on("keyup", function () {
+			var value = $(this).val().toLowerCase();
+			$("#myTable tr").filter(function () {
+				$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+			});
+		});
+	});
+</script>

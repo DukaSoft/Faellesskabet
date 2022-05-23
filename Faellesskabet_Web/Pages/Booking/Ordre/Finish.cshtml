@@ -1,0 +1,77 @@
+﻿@page "{id?}"
+@model Faellesskabet_Web.Pages.Booking.Ordre.FinishModel
+@{
+	Layout = "~/Pages/Shared/_StaffLayout.cshtml";
+}
+
+<div class="row justify-content-center mx-0">
+	<div class="col-md-3 border-fancy">
+		<h4>Fuldfør Ordre</h4>
+		<hr />
+
+		<form method="post">
+			<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+			<input type="hidden" asp-for="Order.Id" />
+			<input type="hidden" asp-for="Order.CustomerId" class="form-control" />
+
+			<div class="form-group">
+				@foreach (var item in Model.Order.Tickets)
+				{
+					<span><b>@Model.Arrangements.FirstOrDefault(i => i.Id == item.ArrangementId).Title</b></span>
+					<br />
+					@if (item.TicketCountAdult > 0 && item.TicketCountChild > 0)
+					{
+						<span><i>Voksen: @item.TicketCountAdult</i></span>
+						<span><i>Pris: @item.TicketPriceAdult,-</i></span>
+						<span><i>Total: @Model.TicketCost(item.TicketCountAdult, item.TicketPriceAdult),-</i></span>
+						<br />
+						<span><i>Barn: @item.TicketCountChild</i></span>
+						<span><i>Pris: @item.TicketPriceChild,-</i></span>
+						<span><i>Total: @Model.TicketCost(item.TicketCountChild, item.TicketPriceChild),-</i></span>
+					}
+					else if (item.TicketCountAdult > 0)
+					{
+						<span><i>Voksen: @item.TicketCountAdult</i></span>
+						<span><i>Pris: @item.TicketPriceAdult,-</i></span>
+						<span><i>Total: @Model.TicketCost(item.TicketCountAdult, item.TicketPriceAdult),-</i></span>
+					}
+					else if (item.TicketCountChild > 0)
+					{
+						<span><i>Barn: @item.TicketCountChild</i></span>
+						<span><i>Pris: @item.TicketPriceChild,-</i></span>
+						<span><i>Total: @Model.TicketCost(item.TicketCountChild, item.TicketPriceChild),-</i></span>
+					}
+					<br />
+				}
+				<br />
+				<h3>I Alt: kr. @Model.OrderTotal(),-</h3>
+			</div>
+
+			<div class="form-group">
+				<label asp-for="Order.PaymentMethod"></label>
+				<select asp-for="Order.PaymentMethod" class="custom-select mb-1">
+					<option value="">Vælg betalings type</option>
+					@foreach (var item in Model.PaymentMethods)
+					{
+						<option value="@item.Id">@item.Name</option>
+					}
+				</select>
+				<span asp-validation-for="Order.PaymentMethod" class="text-danger mt-1"></span>
+			</div>
+			<div class="form-group">
+				<label asp-for="@Model.Order.Notes"></label>
+				<textarea asp-for="@Model.Order.Notes" class="form-control"></textarea>
+			</div>
+
+			<input type="hidden" asp-for="Order.Date" class="form-control" />
+
+			<div class="form-group text-center mt-4 mb-0">
+				<input type="submit" value="Køb" class="btn btn-success mr-1" />
+				<input type="submit" value="Fortryd Ordre" formnovalidate asp-page-handler="Cancel" class="btn btn-danger ml-1" />
+			</div>
+		</form>
+	</div>
+</div>
+@section Scripts {
+	@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

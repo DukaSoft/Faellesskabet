@@ -1,0 +1,71 @@
+﻿@page
+@model Faellesskabet_Web.Pages.Documents.IndexModel
+
+<h3 class="text-center text-white font-weight-bold mt-5" style="text-shadow: 2px 2px 8px #808080;">Dokumenter</h3>
+
+<div class="row justify-content-center mt-5">
+	<div class="col-sm-8 border-fancy">
+		<input class="form-control" id="myInput" type="text" placeholder="Søg..">
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>
+						@Html.DisplayNameFor(model => model.Document[0].Title)
+					</th>
+					<th>
+						@Html.DisplayNameFor(model => model.Document[0].Date)
+					</th>
+					<th>
+						Download
+					</th>
+					@if (User.IsInRole("RegnskabsManager") || User.IsInRole("ReferatsManager"))
+					{
+						<th>
+							<a class="btn btn-success btn-sm" asp-page="Create">Tilføj</a>
+						</th>
+					}
+				</tr>
+			</thead>
+			<tbody id="myTable">
+				@foreach (var item in Model.Document)
+				{
+					<tr>
+						<td>
+							@Html.DisplayFor(modelItem => item.Title)
+						</td>
+						<td>
+							@Html.DisplayFor(modelItem => item.Date)
+						</td>
+						<td>
+							@if (item.File != null)
+							{
+								<form asp-page-handler="Download" method="post" asp-route-id="@item.Id">
+									<input type="submit" class="btn btn-primary btn-sm" value="Download">
+								</form>
+							}
+						</td>
+						@if (User.IsInRole("RegnskabsManager") || User.IsInRole("ReferatsManager"))
+						{
+							<td>
+								<a class="btn btn-danger btn-sm" asp-page="./Delete" asp-route-id="@item.Id">Slet</a>
+							</td>
+						}
+					</tr>
+				}
+			</tbody>
+		</table>
+	</div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script>
+	$(document).ready(function () {
+		$("#myInput").on("keyup", function () {
+			var value = $(this).val().toLowerCase();
+			$("#myTable tr").filter(function () {
+				$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+			});
+		});
+	});
+</script>

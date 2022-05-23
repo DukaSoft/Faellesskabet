@@ -1,0 +1,263 @@
+﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
+for details on configuring this project to bundle and minify static web assets. */
+
+main{
+    min-height:100vh;
+}
+
+a.navbar-brand {
+    white-space: normal;
+    text-align: center;
+    word-break: break-all;
+}
+
+/* Provide sufficient contrast against white background */
+a {
+    color: #0366d6;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
+}
+
+html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+.border-top {
+    border-top: 1px solid #e5e5e5;
+}
+
+.border-bottom {
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.box-shadow {
+    box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+button.accept-policy {
+    font-size: 1rem;
+    line-height: inherit;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+    /*position: relative;*/
+    min-height: 100%;
+}
+
+body {
+    position: relative;
+    /* Margin bottom by footer height */
+/*    padding-bottom: 40px;*/
+    height:100vh;
+}
+
+.footer {
+    border-radius: 0px 0px 0px 0px;
+    display: block;
+/*    position: fixed;*/
+    bottom: 0;
+    left: 0;
+    right: 0;
+/*    margin-right:auto;
+    margin-left: auto;
+    width: 90vw;*/
+    z-index: 2;
+    /*margin-right: 0px;*/
+    white-space: nowrap;
+    height: 40px;
+    line-height: 40px; /* Vertically center the text there */
+    background-color: rgba(11, 29, 23, 0.1);
+}
+.KontaktPc {
+    display: none;
+}
+.KontaktMobile {
+    display: block;
+}
+
+
+@media(min-width: 768px) {
+    .footer {
+        height: auto;
+        line-height: 25px;
+    }
+    .KontaktPc {
+        display: block;
+    }
+    .KontaktMobile {
+        display: none;
+    }
+}
+/* Me - Background Image*/
+html, body {
+    height: 100%;
+    min-height: 100vh;
+    overflow: auto;
+}
+
+body {
+    padding: 0;
+/*    padding-bottom: 60px;*/
+    margin: 0;
+    overflow-y: auto;
+    background-size: cover !important;
+    background-image: url(../Images/bg.jpg);
+}
+
+.navbar-bg {
+    background-color: #152721 !important;
+}
+
+/*Fancy Borders*/
+.border-fancy {
+    background-color: #fff; /*#0B1D17; */
+    border-radius: 5px;
+    border: 2px solid black;
+    box-shadow: 4px 5px 4px rgba(40, 40, 40, 0.4);
+    margin: 0.5rem ;
+    margin-top: 1.5rem ;
+    padding: 1.5rem !important;
+}
+
+    .border-fancy a {
+        text-decoration: none;
+    }
+
+.border-fancy-list:hover {
+    background-color: #1e4538;
+}
+
+.border-flat {
+    background-color: #E9ECEF;
+    border-radius: 5px;
+    border: 1px solid #d9d7d7;
+}
+
+/*Fancy Members Border*/
+.border-members-fancy {
+    /*background-color: #fff;*/ /*#0B1D17; */
+    background-image: linear-gradient(#04519b,#033c73 60%,#02325f);
+    border-radius: 5px;
+    border: 2px solid black;
+    box-shadow: 4px 5px 4px rgba(40, 40, 40, 0.4);
+    padding: 1.5rem !important;
+}
+
+    .border-fancy a {
+        text-decoration: none;
+    }
+
+h6.multiline {
+    white-space: pre-line;
+}
+
+.show-grid [class^="col-"] {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border: 1px solid #AAA;
+    background-color: #EEE;
+    background-color: rgba(200, 200, 200, 0.3);
+}
+
+.card-width {
+    width: 90vw;
+}
+
+@media (min-width: 768px) {
+    .card-width {
+        width: 400px;
+    }
+}
+
+.page-item {
+    z-index: 0;
+}
+
+.page-link .active{
+    z-index: 0;
+}
+
+.page-link:focus{
+    z-index: 0;
+}
+
+.input-validation-error {
+    /*border-color: red !important;*/
+    box-shadow: 0 0 0 0.2rem rgba(150, 0, 0, 0.50);
+}
+
+.input-validation-error:focus {
+    /*border-color: red !important;*/
+    box-shadow: 0 0 0 0.2rem rgba(150, 0, 0, 0.50);
+}
+
+@media print {
+    ::-webkit-scrollbar {
+        display: none;
+    }
+
+    body {
+        background-image: none;
+    }
+
+    body * {
+        visibility: hidden;
+    }
+
+    .border-fancy {
+        margin: 0.5rem !important;
+        margin-top: 1.5rem !important;
+    }
+
+    .no-print, .no-print * {
+        display: none !important;
+    }
+
+    footer * {
+        visibility: hidden;
+    }
+
+    .section-to-print, .section-to-print * {
+        visibility: visible;
+        font-size: 20px;
+    }
+
+        .section-to-print a, .section-to-print svg {
+            visibility: hidden;
+            display: none;
+        }
+
+        .section-to-print table {
+            margin-top: 4rem;
+
+        }
+
+    .print-svg {
+        display:block !important;
+
+    }
+
+    .section-to-print {
+        /*        position: absolute;
+        left: 0;
+        top: 0;*/
+    }
+}

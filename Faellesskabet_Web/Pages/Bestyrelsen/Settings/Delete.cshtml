@@ -1,0 +1,30 @@
+﻿@page
+@model Faellesskabet_Web.Pages.Bestyrelsen.Settings.DeleteModel
+@{
+	Layout = "~/Pages/Shared/_StaffLayout.cshtml";
+}
+
+<h3 class="text-center text-white font-weight-bold mt-4" style="text-shadow: 2px 2px 8px #808080;">Bestyrelse</h3>
+
+<div class="row justify-content-center mt-3">
+	<div class="col-md-4 border-fancy m-2 p-3">
+		<div class="row text-center mx-4">
+			<div class="col-sm-12">
+				@Html.DisplayFor(model => model.Bestyrelse.Name)
+			</div>
+		</div>
+		<div class="row text-center">
+			<div class="col-sm-12">
+				@Html.DisplayFor(model => model.Bestyrelse.MemberType)
+			</div>
+		</div>
+
+		<form method="post">
+			<div class="form-group text-center mt-4">
+				<input type="hidden" asp-for="Bestyrelse.Id" />
+				<input type="submit" value="Slet" class="btn btn-danger" />
+				<a class="btn btn-secondary" asp-page="./Index">Tilbage</a>
+			</div>
+		</form>
+	</div>
+</div>

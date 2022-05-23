@@ -1,0 +1,62 @@
+﻿@page
+@model Faellesskabet_Web.Pages.Booking.Kunder.IndexModel
+@{
+	Layout = "~/Pages/Shared/_StaffLayout.cshtml";
+}
+
+<div class="border-fancy">
+	<p>
+		<a class="btn btn-success" asp-page="Create">Ny Kunde</a>
+	</p>
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th>
+					@Html.DisplayNameFor(model => model.Customer[0].Id)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.Customer[0].Name)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.Customer[0].Address)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.Customer[0].Phone)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.Customer[0].Email)
+				</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var item in Model.Customer)
+			{
+				<tr>
+					<td>
+						@Html.DisplayFor(modelItem => item.Id)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.Name)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.Address)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.Phone)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.Email)
+					</td>
+					<td>
+						<a class="btn btn-sm btn-warning" asp-page="./Edit" asp-route-id="@item.Id">Rediger</a>
+						@if (User.IsInRole("BookingSystemManagerDelete"))
+						{
+							<a class="btn btn-sm btn-danger" asp-page="./Delete" asp-route-id="@item.Id">Slet</a>
+						}
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+</div>

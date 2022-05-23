@@ -1,0 +1,54 @@
+﻿@page
+@model Faellesskabet_Web.Pages.AdminPanel.IndexModel
+@{
+	Layout = "~/Pages/Shared/_StaffLayout.cshtml";
+}
+
+<div class="container">
+	<div class="row justify-content-center">
+		<div class="col-auto">
+			<div class="border-fancy" style="overflow-x: auto">
+
+				<h1 class="text-center mb-4">Bruger liste</h1>
+
+				<table class="table table-sm">
+					<thead>
+						<tr>
+							<th>
+								Brugernavn
+							</th>
+							<th>
+								Email Bekræftet?
+							</th>
+							<th>
+								To Trins Bekræftelse Aktiv?
+							</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						@foreach (var item in Model.ApplicationUser)
+						{
+							<tr>
+								<td>
+									@Html.DisplayFor(modelItem => item.UserName)
+								</td>
+
+								<td>
+									@Html.DisplayFor(modelItem => item.EmailConfirmed)
+								</td>
+								<td>
+									@Html.DisplayFor(modelItem => item.TwoFactorEnabled)
+								</td>
+								<td>
+									<a class="btn btn-sm btn-warning mx-1" asp-page="./EditUser" asp-route-id="@item.Id">Rediger</a>
+									<a class="btn btn-sm btn-danger mx-1" asp-page="./DeleteUser" asp-route-id="@item.Id">Slet</a>
+								</td>
+							</tr>
+						}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>

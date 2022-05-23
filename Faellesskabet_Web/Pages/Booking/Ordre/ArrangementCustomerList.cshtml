@@ -1,0 +1,73 @@
+﻿@page "{id}"
+@model Faellesskabet_Web.Pages.Booking.Ordre.ArrangementCustomerListModel
+
+@{
+	Layout = "~/Pages/Shared/_StaffLayout.cshtml";
+}
+
+<div class="border-fancy">
+	<h1 class="section-to-print text-center mb-4">Kunde liste til: @Model.arrangement.Title</h1>
+	<div class="text-center">
+		<a class="btn btn-secondary mr-1" href="/Booking/Ordre">Tilbage</a>
+		<button class="btn btn-primary ml-1" onclick="print()">Udskriv</button>
+	</div>
+	<div style="overflow-y: auto; height: calc(100vh - 315px);">
+		<div style="overflow-y: auto; height: calc(100vh - 315px);">
+			<table id="section-to-print" class="table table-striped section-to-print">
+				<thead style=" border-top: none;">
+					<tr style="position: sticky; top: 0;  padding-top: 2px;">
+						<th style="width: 10%; border-top:none;">
+							Id
+						</th>
+						<th style="width: 50%; border-top: none;">
+							Navn
+						</th>
+						<th style="width: 20%; border-top: none;">
+							Tlf
+						</th>
+						<th style="width: auto; border-top: none;">
+							Billet antal
+						</th>
+					</tr>
+				</thead>
+				<tbody id="myTable">
+					@foreach(var cust in Model.customers.OrderBy(n => n.Name))
+					{
+						<tr>
+							<td>
+								@cust.Id
+							</td>
+							<td>
+								@cust.Name
+							</td>
+							<td>
+								@cust.Phone
+							</td>
+							<td>
+								Barn: @Model.GetUserTicketCountChild(cust.Id)
+								Voksen: @Model.GetUserTicketCountAdult(cust.Id) <br>
+								<b>( Total: @Model.GetUserTicketCountTotal(cust.Id) )</b>
+							</td>
+						</tr>
+					}
+						<tr>
+							<td>
+							
+							</td>
+							<td>
+							
+							</td>
+							<td>
+							
+							</td>
+							<td>
+								Barn: @Model.GetTotalTicketsChild()
+								Voksen: @Model.GetTotalTicketsAdult() <br>
+								<b>Antal Billetter: @Model.GetTotalTickets()</b>
+							</td>
+						</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>

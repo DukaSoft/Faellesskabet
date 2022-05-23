@@ -1,0 +1,66 @@
+﻿@page
+@model Faellesskabet_Web.Pages.Nyheder.IndexModel
+
+<h3 class="text-center text-white font-weight-bold mt-4" style="text-shadow: 2px 2px 8px #808080;">Nyheder</h3>
+
+@if (User.IsInRole("NyhedsManager"))
+{
+	<div class="text-center">
+		<a class="btn btn-success mt-2 mr-1" asp-page="Create">Tilføj Nyhed</a>
+		<a class="btn btn-warning mt-2 ml-1" asp-page="Old">Gamle nyheder</a>
+	</div>
+}
+<div class="row justify-content-center mt-2 pt-2">
+	<div class="col-sm-12 col-md-10 col-lg-8 col-xl-8">
+		@foreach (var item in Model.Nyheder)
+		{
+			<div class="d-inline">
+				<div class="card bg-light m-2  mx-auto" style=" border:none;">
+					<div class="card-header bg-dark text-white font-weight-bold">
+						<div class="row">
+							<div class="col-1  col-sm-4 d-none d-sm-flex"></div>
+							<div class="col-6  col-sm-4 text-left text-sm-center my-auto">
+								@if (item.Important == true)
+								{
+									<div class="my-auto">
+										<span class="badge rounded-pill bg-danger text-white p-2 mr-2">Vigtigt</span>
+									</div>
+								}
+								<div class="mx-2 my-auto ml-2">@item.PublishDate.ToLongDateString()</div>
+							</div>
+							<div class="col-6  col-sm-4 col-sm-4 text-right my-auto">
+							@if (User.IsInRole("NyhedsManager"))
+							{
+								<a class="btn btn-sm btn-warning m-sm-1 mb-1 mb-sm-0" style="min-width: 58px;" asp-page="./edit" asp-route-id="@item.Id">Rediger</a>
+								<a class="btn btn-sm btn-danger m-sm-1 mb-1 mb-sm-0" style="min-width: 58px;" asp-page="./delete" asp-route-id="@item.Id">Slet</a>
+							}
+							</div>
+						</div>
+					</div>
+					<div class="card-body mb-2">
+
+
+						<h4 class="card-title font-weight-bold mb-4">@item.Title</h4>
+
+						@if (item.ImageContent != null)
+						{
+							<div class="text-center">
+								<a asp-page="/Nyheder/ImageView/Index" asp-route-id="@item.Id" target="_blank">
+									<img style="max-width: 95%; height: 100%;" src="data:image/jpg;base64,
+										@Convert.ToBase64String(item.ImageContent)" alt="" />
+								</a>
+							</div>
+						}
+						else
+						{
+							<h6 class="card-text multiline font-weight-normal" style="color: #0366d6;">@item.TextContent</h6>
+						}
+					</div>
+					<div class="card-subtitle m-1">
+						<p class="m-0 mr-1 float-right"></p>
+					</div>
+				</div>
+			</div>
+		}
+	</div>
+</div>

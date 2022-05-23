@@ -1,0 +1,72 @@
+﻿@page
+@model Faellesskabet_Web.Pages.Nyheder.EditModel
+@{
+	Layout = "~/Pages/Shared/_StaffLayout.cshtml";
+}
+
+<h3 class="text-center text-white font-weight-bold mt-4" style="text-shadow: 2px 2px 8px #808080;">Nyhed</h3>
+
+<div class="row justify-content-center mt-3 mx-0">
+	<div class="col-md-7 border-fancy">
+		<form method="post" enctype="multipart/form-data">
+			<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+			<input type="hidden" asp-for="Nyhed.Id" />
+			<div class="form-group d-flex">
+				<div class="flex-column flex-fill mr-1">
+					<label asp-for="Nyhed.PublishDate" class="control-label">Offentligør efter</label>
+					<input asp-for="Nyhed.PublishDate" class="form-control" />
+					<span asp-validation-for="Nyhed.PublishDate" class="text-danger"></span>
+				</div>
+				<div class="flex-column flex-fill ml-1">
+					<label asp-for="Nyhed.ExpireDate" class="control-label">Udløber</label>
+					<input asp-for="Nyhed.ExpireDate" class="form-control" />
+					<span asp-validation-for="Nyhed.ExpireDate" class="text-danger"></span>
+				</div>
+			</div>
+			<div class="form-group">
+				<label asp-for="Nyhed.Title" class="control-label">Titel</label>
+				<input asp-for="Nyhed.Title" class="form-control"/>
+				<span asp-validation-for="Nyhed.Title" class="text-danger"></span>
+			</div>
+			<div class="form-group">
+				<input type="hidden" asp-for="Nyhed.ImageContent" />
+				@if (Model.Nyhed.ImageContent == null)
+				{
+					<label asp-for="file" class="control-label">Tilføj billede til visning som fuld side</label>
+					<input asp-for="file" class="form-control p-1 form-inline" accept=".jpg,.gif,.png" type="file" />
+				}
+				else
+				{
+					<div class="mb-2 text-center" style="border-radius: 15px;background: #eceef1;">
+						<img style="max-width: 95%; height: 100%; padding: 10px;" src="data:image/jpg;base64,
+											@Convert.ToBase64String(Model.Nyhed.ImageContent)" />
+					</div>
+					<label asp-for="file" class="control-label">Slet billede til visning som fuld side</label>
+					<button type="submit" class="form-control btn btn-sm btn-danger ml-1" asp-page-handler="RemoveImage">Slet billede</button>
+				}
+			</div>
+			<div class="form-group">
+				<label asp-for="Nyhed.TextContent" class="control-label">Evt. Tekst (Vises kun hvis billede undlades)</label>
+				<textarea asp-for="Nyhed.TextContent" rows="5" class="form-control"></textarea>
+				<span asp-validation-for="Nyhed.TextContent" class="text-danger"></span>
+			</div>
+			<div class="form-group form-check">
+				<label class="form-check-label mb-2">
+					<input class="form-check-input" asp-for="Nyhed.ShowOnLanding" />Vis på forsiden
+				</label>
+				<br />
+				<label class="form-check-label">
+					<input class="form-check-input" asp-for="Nyhed.Important" />Vigtig nyhed!
+				</label>
+			</div>
+			<div class="form-group text-center mt-4 mb-0">
+				<input type="submit" value="Gem" class="btn btn-primary" />
+				<a asp-page="./Index" class="btn btn-secondary">Tilbage</a>
+			</div>
+		</form>
+	</div>
+</div>
+
+@section Scripts {
+	@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

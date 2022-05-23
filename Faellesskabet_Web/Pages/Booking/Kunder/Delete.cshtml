@@ -1,0 +1,46 @@
+﻿@page
+@model Faellesskabet_Web.Pages.Booking.Kunder.DeleteModel
+@{
+	Layout = "~/Pages/Shared/_StaffLayout.cshtml";
+}
+
+	<div class="row justify-content-center mx-0">
+		<div class="col-sm-12 col-md-6 col-lg-4 border-fancy">
+			<h3>Vil du slette denne kunde?</h3>
+			<div>
+				<hr />
+				<dl class="row">
+					<dt class="col-sm-4">
+						@Html.DisplayNameFor(model => model.Customer.Name)
+					</dt>
+					<dd class="col-sm-8">
+						@Html.DisplayFor(model => model.Customer.Name)
+					</dd>
+					<dt class="col-sm-4">
+						@Html.DisplayNameFor(model => model.Customer.Address)
+					</dt>
+					<dd class="col-sm-8">
+						@Html.DisplayFor(model => model.Customer.Address)
+					</dd>
+					<dt class="col-sm-4">
+						@Html.DisplayNameFor(model => model.Customer.Phone)
+					</dt>
+					<dd class="col-sm-8">
+						@Html.DisplayFor(model => model.Customer.Phone)
+					</dd>
+					<dt class="col-sm-4">
+						@Html.DisplayNameFor(model => model.Customer.Email)
+					</dt>
+					<dd class="col-sm-8">
+						@Html.DisplayFor(model => model.Customer.Email)
+					</dd>
+				</dl>
+
+				<form class="text-center" method="post">
+					<input type="hidden" asp-for="Customer.Id" />
+					<input type="submit" value="Slet" class="btn btn-danger mr-1" />
+					<a class="btn btn-secondary ml-1" asp-page="./Index">Tilbage</a>
+				</form>
+			</div>
+		</div>
+	</div>

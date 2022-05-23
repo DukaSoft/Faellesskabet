@@ -1,0 +1,58 @@
+﻿@page
+@model Faellesskabet_Web.Pages.Arrangementer.IndexModel
+
+<h3 class="text-center text-white font-weight-bold mt-4" style="text-shadow: 2px 2px 8px #808080;">Arrangementer</h3>
+
+@if(User.IsInRole("EventManager"))
+{
+	<div class="text-center">
+		<a class="btn btn-success mr-2 mt-2" asp-page="Create">Tilføj nyt Arrangement</a>
+		<a class="btn btn-secondary mt-2" asp-page="Old">Vis Gamle</a>
+	</div>
+}
+<div class="row mt-4 pt-2 justify-content-center">
+	@if (Model.Arrangement.Count == 0)
+	{
+		<div class="d-inline">
+			<div class="card bg-light m-2 card-width" style="height:200px; border:none;">
+				<div class="card-header text-center bg-dark text-white font-weight-bold">Info</div>
+				<div class="card-body">
+					<h4 class="card-title font-weight-bold">Der er pt. ingen arrangementer</h4>
+					<p class="card-text"></p>
+				</div>
+			</div>
+		</div>
+	}
+	else
+	{ 
+		@foreach (var item in Model.Arrangement)
+		{
+			<a class="text-decoration-none" asp-page="./Details" asp-route-id="@item.Id">
+				<div class="d-inline">
+					<div class="card bg-light m-2 card-width" style="height:220px; border:none;">
+						<div class="card-header bg-dark text-white font-weight-bold">
+							<div class="d-flex flex-row justify-content-center">
+								<div class="mr-2">@item.Date.ToLongDateString()</div>
+								<div class="ml-2">@item.Date.ToShortTimeString()</div>
+							</div>
+						</div>
+						<div class="card-body overflow-hidden">
+							@if(item.Active == true)
+							{
+								<h4 class="card-title font-weight-bold">@item.Title</h4>
+							}
+							else
+							{
+								<h4 class="card-title font-weight-bold text-warning">@item.Title</h4>
+							}
+							<h6 class="card-text multiline font-weight-normal" style="color: #0366d6;">@item.Content</h6>
+						</div>
+						<div class="card-subtitle m-1">
+							<p class="m-0 mr-1 float-right">Mere info</p>
+						</div>
+					</div>
+				</div>
+			</a>
+		}
+	}
+</div>

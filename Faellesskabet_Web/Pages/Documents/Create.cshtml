@@ -1,0 +1,36 @@
+﻿@page
+@model Faellesskabet_Web.Pages.Documents.CreateModel
+@{
+	Layout = "~/Pages/Shared/_StaffLayout.cshtml";
+}
+
+<div class="row justify-content-center mt-4">
+	<div class="col-md-3 border-fancy">
+		<h4 class="text-center mb-3">Nyt Dokument</h4>
+		<form method="post" enctype="multipart/form-data">
+			<div class="form-group">
+				<label asp-for="Document.Title" class="control-label">Titel</label>
+				<input asp-for="Document.Title" class="form-control" />
+				<span asp-validation-for="Document.Title" class="text-danger"></span>
+			</div>
+			<div class="form-group">
+				<label asp-for="Document.Date" class="control-label">Dato</label>
+				<input asp-for="Document.Date" asp-format="{0:dd/MM/yyyy}" class="form-control" />
+				<span asp-validation-for="Document.Date" class="text-danger"></span>
+			</div>
+			<div class="form-group">
+				<label asp-for="file" class="control-label">Tilføj fil (Max 10mb)</label>
+				<input asp-for="file" class="form-control p-1" accept=".pdf" type="file" />
+			</div>
+			<div asp-validation-summary="All" class="text-danger"></div>
+			<div class="form-group text-center mt-5">
+				<input type="submit" value="Gem" class="btn btn-primary" />
+				<a class="btn btn-secondary" asp-page="Index">Tilbage</a>
+			</div>
+		</form>
+	</div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

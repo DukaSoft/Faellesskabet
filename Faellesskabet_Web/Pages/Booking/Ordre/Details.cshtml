@@ -1,0 +1,104 @@
+﻿@page
+@model Faellesskabet_Web.Pages.Booking.Ordre.DetailsModel
+@{
+	Layout = "~/Pages/Shared/_StaffLayout.cshtml";
+}
+
+<div class="row m-0 justify-content-center">
+	<div class="col-6 border-fancy">
+		<a class="btn btn-primary float-right" asp-page="./Index">Tilbage</a>
+		@* Customer info *@
+		<h4 class="text-center mb-5" style="clear: both;">Ordre</h4>
+		<div class="row justify-content-between mb-4">
+			<div class="col">
+				<p class="mb-0">
+					@Html.DisplayFor(Model => Model.Customer.Name)
+				</p>
+				<p class="mb-0">
+					@Html.DisplayFor(Model => Model.Customer.Address)
+				</p>
+			</div>
+			<div class="col text-right">
+				<p class="mb-0">
+					@Html.DisplayFor(Model => Model.Customer.Phone)
+				</p>
+				<p class="mb-0">
+					@Html.DisplayFor(Model => Model.Customer.Email)
+				</p>
+			</div>
+		</div>
+		@* Order info *@
+
+		<table class="table table-sm">
+			<thead>
+				<tr>
+					<th style="width: 100px;">
+						Arrangement
+					</th>
+					<th style="width: 130px;">
+						Dato
+
+					</th>
+					<th style="width: 100px;">
+						Pris
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (var item in Model.Tickets)
+				{
+					<tr>
+						@if (item.TicketCountAdult > 0 && item.TicketCountChild > 0)
+						{
+							<td>
+								<span>@Model.Arrangements.FirstOrDefault(i => i.Id == item.ArrangementId).Title</span>
+								<p class="font-italic mb-0 ml-2">Voksen - @item.TicketCountAdult</p>
+								<p class="font-italic mb-0 ml-2">Barn - @item.TicketCountChild</p>
+							</td>
+						}
+						@if (item.TicketCountAdult > 0 && item.TicketCountChild == 0)
+						{
+							<td>
+								@Model.Arrangements.FirstOrDefault(i => i.Id == item.ArrangementId).Title
+								<br />
+								<p class="font-italic mb-0 ml-2">Voksen - @item.TicketCountAdult</p>
+							</td>
+						}
+						@if (item.TicketCountChild > 0 && item.TicketCountAdult == 0)
+						{
+							<td>
+								@Model.Arrangements.FirstOrDefault(i => i.Id == item.ArrangementId).Title
+								<br />
+								<p class="font-italic mb-0 ml-2">Barn - @item.TicketCountChild</p>
+							</td>
+						}
+						<td>
+							@Model.Arrangements.FirstOrDefault(i => i.Id == item.ArrangementId).Date
+						</td>
+						<td>
+							kr. @Model.TicketTotal(item.Id),-
+						</td>
+					</tr>
+				}
+				<tr>
+					<td>
+					</td>
+					<td>
+					</td>
+					<td class="bg-light">
+						<span>Total: kr. @Model.OrderTotal(),-</span>
+						<p class="mb-1">
+							Betalt med:
+							<span>@await Model.PayedWith(Model.Order.PaymentMethod)</span>
+						</p>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<div>
+			<label asp-for="@Model.Order.Notes"></label>
+			<textarea style="resize:none;" rows="8" readonly class="form-control">@Model.Order.Notes</textarea>
+		</div>
+	</div>
+</div>

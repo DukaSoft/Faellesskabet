@@ -1,0 +1,47 @@
+﻿@page
+@model Faellesskabet_Web.Pages.Arrangementer.DeleteModel
+@{
+	Layout = "~/Pages/Shared/_StaffLayout.cshtml";
+}
+
+<div class="row justify-content-center mt-4 mx-0">
+	<div class="col-4 border-fancy">
+		<h3>Er du sikker på at du vil slette dette?</h3>
+		<div>
+			<dl class="row">
+				<dt class="col-sm-2">
+					@Html.DisplayNameFor(model => model.Arrangement.Title)
+				</dt>
+				<dd class="col-sm-10">
+					@Html.DisplayFor(model => model.Arrangement.Title)
+				</dd>
+				<dt class="col-sm-2">
+					@Html.DisplayNameFor(model => model.Arrangement.Date)
+				</dt>
+				<dd class="col-sm-10">
+					@Html.DisplayFor(model => model.Arrangement.Date)
+				</dd>
+				<dt class="col-sm-2">
+					@Html.DisplayNameFor(model => model.Arrangement.Content)
+				</dt>
+				<dd class="col-sm-10">
+					@Html.DisplayFor(model => model.Arrangement.Content)
+				</dd>
+				<dt class="col-sm-2">
+					@Html.DisplayNameFor(model => model.Arrangement.Active)
+				</dt>
+				<dd class="col-sm-10">
+					@Html.DisplayFor(model => model.Arrangement.Active)
+				</dd>
+			</dl>
+
+			<form method="post">
+				<div class="text-center">
+					<input type="hidden" asp-for="Arrangement.Id" />
+					<input type="submit" value="Slet" class="btn btn-danger" />
+					<a class="btn btn-secondary" asp-page="./Details" asp-route-id="@Model.Arrangement.Id">Tilbage</a>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>

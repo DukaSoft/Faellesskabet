@@ -1,0 +1,163 @@
+﻿@page "{id?}"
+@model Faellesskabet_Web.Pages.Booking.Ordre.CreateModel
+@{
+	Layout = "~/Pages/Shared/_StaffLayout.cshtml";
+}
+
+@if (Model.CustomerId == null)
+{
+	<div class="row justify-content-center mx-0">
+		<div class="col-md-10 border-fancy">
+			<div class="row">
+
+				<div class="col">
+					<h1>Vælg kunde</h1>
+				</div>
+				<div class="col text-right">
+					<a class="btn btn-secondary" asp-page="/Booking/Ordre/Index" asp-route-id="">Tilbage</a>
+					<a class="btn btn-success"
+					   asp-page="/Booking/Kunder/Create"
+					   asp-route-doreturn="yes">Ny Kunde</a>
+				</div>
+			</div>
+
+			<input class="form-control" id="myInput" type="text" placeholder="Søg..">
+			<div style="overflow-y: auto; height: 65vh;">
+				<table class="table table-striped">
+					<thead style="border-top: none;">
+
+						<tr style="position: sticky; top: 0; color: rgba(255,255,255,.8); background-image: linear-gradient(#04519b,#033c73 60%,#02325f); padding-top: 2px;">
+							<th style="border-top: none;">Navn</th>
+							<th style="border-top: none;">Adresse</th>
+							<th style="border-top: none;">Tlf</th>
+							<th style="border-top: none;">E-Mail</th>
+						</tr>
+					</thead>
+					<tbody id="myTable">
+
+						@foreach (var item in Model.Customers)
+						{
+							<tr>
+								<td><a asp-page="/Booking/Ordre/Create" asp-route-id="@item.Id">@item.Name</a></td>
+								<td>@item.Address</td>
+								<td>@item.Phone</td>
+								<td>@item.Email</td>
+							</tr>
+						}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+	<script>
+		$(document).ready(function () {
+			$("#myInput").on("keyup", function () {
+				var value = $(this).val().toLowerCase();
+				$("#myTable tr").filter(function () {
+					$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+				});
+			});
+		});
+	</script>
+}
+else
+{
+	<div class="row justify-content-center mx-0">
+		<div class="col-md-10 border-fancy">
+			<div class="row">
+
+				<div class="col">
+					<h1>Vælg arrangementer</h1>
+				</div>
+				<div class="col text-right">
+					<h5 class="">Kunde</h5>
+					<p class="text-primary">@Model.Customers.FirstOrDefault(c => c.Id == Model.CustomerId).Name</p>
+				</div>
+			</div>
+
+			<form method="post">
+				<input type="hidden" asp-for="@Model.CustomerId" />
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>
+								Arrangement
+							</th>
+							<th>
+								Dato
+							</th>
+							<th class="text-center">
+								Barn Pris
+							</th>
+							<th>
+								Til Rådighed / Køb
+							</th>
+							<th class="text-center">
+								Voksen Pris
+							</th>
+							<th>
+								Til Rådighed / Køb
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						@for (int i = 0; i < Model.Arrangements.Count; i++)
+						{
+							<tr>
+								<td class="align-middle">
+									<input type="hidden" asp-for="@Model.Tickets[i].Id" />
+									<input type="hidden" asp-for="@Model.Tickets[i].TicketPriceChild" />
+									<input type="hidden" asp-for="@Model.Tickets[i].TicketPriceAdult" />
+									<input type="hidden" asp-for="@Model.Tickets[i].ArrangementId" />
+									@Html.DisplayFor(modelItem => Model.Arrangements[i].Title)
+								</td>
+								<td class="align-middle">
+									@Model.Arrangements[i].Date.ToShortDateString()
+								</td>
+								<td class="text-center align-middle" style="border-style: none none none dotted; border-width: 1px; border-color: #2FA4E7; ">
+									kr. @Model.Tickets[i].TicketPriceChild
+								</td>
+								<td class="align-middle" style="border-style: none dotted none none; border-width: 1px; border-color: #2FA4E7;">
+									<div class="d-flex">
+										<label class="mb-0 disabled form-control text-center bg-secondary" style="width:45px;">@await Model.TicketsLeftChild(Model.Arrangements[i].Id)</label>
+										<input type="number" asp-for="@Model.Tickets[i].TicketCountChild" min="0" max="@await Model.TicketsLeftChild(Model.Arrangements[i].Id)" class="form-control form-inline" style="width:80px;">
+									</div>
+								</td>
+								<td class="text-center align-middle">
+									kr. @Model.Tickets[i].TicketPriceAdult
+								</td>
+								<td class="align-middle">
+									<div class="d-flex">
+										<label class="mb-0 disabled form-control text-center bg-secondary" style="width:45px;">@await Model.TicketsLeftAdult(Model.Arrangements[i].Id)</label>
+										<input type="number" asp-for="@Model.Tickets[i].TicketCountAdult" min="0" max="@await Model.TicketsLeftAdult(Model.Arrangements[i].Id)" class="form-control" style="width:80px;" />
+									</div>
+								</td>
+							</tr>
+						}
+					</tbody>
+				</table>
+
+				<input type="hidden" asp-for="@Model.Order.PaymentMethod" value="0" />
+
+				<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+				<div class="row">
+					<div class="col-md-12 text-center">
+						<div class="form-group  mt-2">
+							<input type="submit" value="Book" class="btn btn-success" />
+							<a class="btn btn-secondary" asp-page="/Booking/Ordre/Create" asp-route-id="">Tilbage</a>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+
+
+}
+
+@section Scripts {
+	@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

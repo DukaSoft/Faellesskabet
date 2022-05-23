@@ -1,0 +1,115 @@
+﻿@page
+@model Faellesskabet_Web.Pages.Booking.Ordre.IndexModel
+@{
+	Layout = "~/Pages/Shared/_StaffLayout.cshtml";
+}
+
+<div class="border-fancy">
+	<div class="row justify-content-around mb-2">
+		<div class="col">
+			<a class="btn btn-success" asp-page="Create">Ny Ordre</a>
+		</div>
+		<div class="col">
+			<a class="btn btn-success float-right" asp-page="Print">Print</a>
+		</div>
+	</div>
+
+	<input class="form-control mb-2" id="myInput" type="text" placeholder="Søg..">
+
+	<div style="overflow-y: auto; height: calc(100vh - 315px);">
+		<div style="overflow-y: auto; height: calc(100vh - 315px);">
+			<table id="section-to-print" class="table table-striped">
+				<thead style=" border-top: none;">
+					<tr style="position: sticky; top: 0; color: rgba(255,255,255,.8); background-image: linear-gradient(#04519b,#033c73 60%,#02325f); padding-top: 2px;">
+						<th style="width: 100px; border-top:none;">
+							Ordre ID
+						</th>
+						<th style="width: 130px; border-top: none;">
+							Dato
+						</th>
+						<th style="width: 100px; border-top: none;">
+							Kunde ID
+						</th>
+						<th style=" border-top: none;">
+							Kunde Navn
+						</th>
+						<th style=" border-top: none;">Ordre</th>
+						<th style=" border-top: none;">
+							Betalt med
+						</th>
+						<th style=" border-top: none;" class="text-center">Note</th>
+						<th style=" border-top: none;" class="text-center"></th>
+					</tr>
+				</thead>
+				<tbody id="myTable">
+					@foreach (var item in Model.Order)
+					{
+						<tr>
+							<td>
+								Id @Html.DisplayFor(modelItem => item.Id)
+							</td>
+							<td>
+								@item.Date.ToShortDateString()
+							</td>
+							<td>
+								@Html.DisplayFor(modelItem => item.CustomerId)
+							</td>
+							<td>
+								<span>@Model.Customers.FirstOrDefault(c => c.Id == item.CustomerId)?.Name</span>
+							</td>
+							<td>
+								@foreach (var ticket in item.Tickets)
+								{
+									<a asp-page="./ArrangementCustomerList" asp-route-id="@ticket.ArrangementId"><span><b>@Model.Arrangementers.FirstOrDefault(a => a.Id == ticket.ArrangementId)?.Title</b> -</span></a>
+									@if (ticket.TicketCountAdult > 0 && ticket.TicketCountChild > 0)
+									{
+										<span><i>Voksen: @ticket.TicketCountAdult, Barn: @ticket.TicketCountChild</i></span>
+									}
+									else if (ticket.TicketCountAdult > 0)
+									{
+										<span><i>Voksen: @ticket.TicketCountAdult</i></span>
+									}
+									else if (ticket.TicketCountChild > 0)
+									{
+										<span><i>Barn: @ticket.TicketCountChild</i></span>
+									}
+									<br />
+								}
+							</td>
+							<td>
+								@await Model.PayedWith(item.PaymentMethod)
+							</td>
+							<td class="text-center align-middle">
+								@if (String.IsNullOrEmpty(item.Notes) == false)
+								{
+									<span hidden>@item.Notes</span>
+								}
+								<a class="btn btn-sm btn-primary" asp-page="./Details" asp-route-id="@item.Id">Info</a>
+							</td>
+							<td class="text-center align-middle">
+
+								@if (User.IsInRole("BookingSystemManagerDelete"))
+								{
+									<a class="btn btn-sm btn-danger" asp-page="./Delete" asp-route-id="@item.Id">Slet</a>
+								}
+							</td>
+						</tr>
+					}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script>
+	$(document).ready(function () {
+		$("#myInput").on("keyup", function () {
+			var value = $(this).val().toLowerCase();
+			$("#myTable tr").filter(function () {
+				$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+			});
+		});
+	});
+</script>

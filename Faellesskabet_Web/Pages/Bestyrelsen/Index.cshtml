@@ -1,0 +1,60 @@
+﻿@page
+@model Faellesskabet_Web.Pages.Bestyrelsen.IndexModel
+
+<h3 class="text-center text-white font-weight-bold my-5" style="text-shadow: 2px 2px 8px #808080;">Bestyrelsen</h3>
+
+@if (User.IsInRole("BestyrelsesManager"))
+{
+	<div class="text-center">
+		<a class="btn btn-warning mt-2" asp-page="./Settings/Index">Indstillinger</a>
+	</div>
+}
+
+<div class="row justify-content-center mt-4">
+	@foreach (var member in Model.Bestyrelse)
+	{
+		if (member.MemberType == "Formand")
+		{
+			<div class="col-sm-2 mx-2 my-2 border-members-fancy">
+				<div class="row justify-content-center">
+					<p class="mb-0 text-white">@member.MemberType</p>
+				</div>
+				<div class="row justify-content-center">
+					<h5 class="mb-0 text-white">@member.Name</h5>
+				</div>
+			</div>
+		}
+	}
+</div>
+<div class="row justify-content-center">
+	@foreach (var member in Model.Bestyrelse)
+	{
+		if (member.MemberType == "Medlem")
+		{
+			<div class="col-sm-2 mx-2 my-2 border-members-fancy">
+				<div class="row justify-content-center">
+					<p class="mb-0 text-white">@member.MemberType</p>
+				</div>
+				<div class="row justify-content-center">
+					<h5 class="mb-0 text-white">@member.Name</h5>
+				</div>
+			</div>
+		}
+	}
+</div>
+<div class="row justify-content-center">
+	@foreach (var member in Model.Bestyrelse)
+	{
+		if (member.MemberType == "Suppleant")
+		{
+			<div class="col-sm-2 mx-2 my-2 border-members-fancy">
+				<div class="row justify-content-center">
+					<p class="mb-0 text-white">@member.MemberType</p>
+				</div>
+				<div class="row justify-content-center">
+					<h5 class="mb-0 text-white">@member.Name</h5>
+				</div>
+			</div>
+		}
+	}
+</div>
